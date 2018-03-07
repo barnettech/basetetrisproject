@@ -28,18 +28,27 @@ function Tile:init(x, y, color, variety, shiny)
     self.shiny = shiny
 end
 
-function Tile:render(x, y)
-    -- draw shadow
-    love.graphics.setColor(34, 32, 52, 255)
-    love.graphics.draw(gTextures['main'], gFrames['tiles'][self.color][self.variety],
-        self.x + x + 2, self.y + y + 2)
-
+function Tile:render(x, y, opacity)
     -- draw tile itself
-    love.graphics.setColor(255, 255, 255, 20)
+    if opacity then
+       -- print('opacity is ' .. opacity)
+       -- draw shadow
+       love.graphics.setColor(34, 32, 52, 255)
+       love.graphics.draw(gTextures['main'], gFrames['tiles'][self.color][self.variety],
+         self.x + x + 2, self.y + y + 2)
+
+      --[[love.graphics.setColor(255, 255, 255, 20)
+      love.graphics.draw(gTextures['main'], gFrames['tiles'][self.color][self.variety],
+        self.x + x, self.y + y)]]
+    else
+      love.graphics.setColor(255, 255, 255, 255)
+      print('no opacity')
+      love.graphics.draw(gTextures['main'], gFrames['tiles'][self.color][self.variety],
+        100, 100)
+
+    end
       
       --print(':38 x is ' .. x) 
       --print(':38 ' .. self.x + x)
       --print(':39 ' .. self.y + y)
-    love.graphics.draw(gTextures['main'], gFrames['tiles'][self.color][self.variety],
-        self.x + x, self.y + y)
 end

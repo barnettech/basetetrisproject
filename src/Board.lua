@@ -37,7 +37,6 @@ function Board:initializeTiles()
             else
               self.shiny = 0
             end
-            print('shiny is ' .. self.shiny)
             -- create a new tile at X,Y with a random color and variety
             table.insert(self.tiles[tileY], Tile(tileX, tileY, math.random(18), math.random(self.level), self.shiny))
         end
@@ -400,7 +399,7 @@ end
 function Board:render()
     for y = 1, #self.tiles do
         for x = 1, #self.tiles[1] do
-            self.tiles[y][x]:render(self.x, self.y)
+            self.tiles[y][x]:render(self.x, self.y, true)
         end
     end
 end
