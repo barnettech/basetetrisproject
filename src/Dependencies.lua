@@ -51,7 +51,8 @@ gSounds = {
 }
 
 gTextures = {
-    ['main'] = love.graphics.newImage('graphics/tetrisgraphic.jpeg'),
+    ['main'] = love.graphics.newImage('graphics/match3.png'),
+    ['main1'] = love.graphics.newImage('graphics/tetrisgraphic.jpeg'),
     ['background'] = love.graphics.newImage('graphics/background.png')
 }
 

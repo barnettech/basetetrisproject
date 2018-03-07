@@ -31,7 +31,6 @@ function Board:initializeTiles()
         
         -- empty table that will serve as a new row
         table.insert(self.tiles, {})
-        --math.randomseed(os.time())
         for tileX = 1, 8 do
             if math.random(1,20) <= 10 then
               self.shiny = 1

@@ -86,7 +86,7 @@ function StartState:render()
                 (x - 1) * 32 + 128, (y - 1) * 32 + 16)
         end
     end--]]
-    love.graphics.draw(gTextures['main'], VIRTUAL_WIDTH / 3, 0)
+    love.graphics.draw(gTextures['main1'], VIRTUAL_WIDTH / 3, 0)
 
     -- keep the background and tiles a little darker than normal
     love.graphics.setColor(0, 0, 0, 128)
