@@ -37,22 +37,19 @@ function PlayState:update(dt)
    math.randomseed(os.time())
   if self.tilespawntimer > math.random(2, 5) then
       local x = math.random(1,8)
-      table.insert(self.fallingtiles, Tile(x, 0, math.random(18), math.random(1), 0))
-      self.fallingtiles[1]:render(x, 0, false)
+      table.insert(self.fallingtiles, Tile(400, 100, math.random(18), math.random(1), 0))
+      self.fallingtiles[1]:render(100, 0, false)
       self.tilespawntimer = 0
+  end
+
+  for k, tilefalling in pairs(self.fallingtiles) do
+    if tilefalling.gridY < VIRTUAL_HEIGHT - 46 then
+      tilefalling.gridY = tilefalling.gridY + 1
+    end
   end
 
 end
 
-function PlayState:havetilefall(fallingtiles)
-   local x = math.random(1,8)
-   table.insert(fallingtiles[1], Tile(x, 0, math.random(18), math.random(1), 0))
-
-   fallingtiles[1]:render(x, 0)
-
-   return fallingtiles
-
-end
 
 function PlayState:render()
   -- render board of tiles
@@ -61,6 +58,11 @@ function PlayState:render()
   love.graphics.printf('Timer: ' .. tostring(self.timer), 20, 108, 182, 'center')
 
 
+  --love.graphics.rectangle("fill", VIRTUAL_WIDTH - 200, 50, 60, 120 )
+  if self.fallingtiles[1] then
+    print_r(self.fallingtiles[1])
+    self.fallingtiles[1]:render(self.fallingtiles[1].gridX, self.fallingtiles[1].gridY, false)
+  end
 
 end
 

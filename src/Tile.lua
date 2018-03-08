@@ -41,10 +41,10 @@ function Tile:render(x, y, opacity)
       love.graphics.draw(gTextures['main'], gFrames['tiles'][self.color][self.variety],
         self.x + x, self.y + y)]]
     else
+      print('x is ' .. x .. ', y is ' .. y)
       love.graphics.setColor(255, 255, 255, 255)
-      print('no opacity')
       love.graphics.draw(gTextures['main'], gFrames['tiles'][self.color][self.variety],
-        100, 100)
+        x, y)
 
     end
       
