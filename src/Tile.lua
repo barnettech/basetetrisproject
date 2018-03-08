@@ -28,6 +28,32 @@ function Tile:init(x, y, color, variety, shiny)
     self.shiny = shiny
 end
 
+--[[
+    AABB collision that expects a anothertile, which will have an X and Y and reference
+    global anothertile width and height values.
+]]
+function Tile:collides(anothertile)
+    TILE_WIDTH = 8
+    TILE_HEIGHT = 8
+    -- the 2's are left and top offsets
+    -- the 4's are right and bottom offsets
+    -- both offsets are used to shrink the bounding box to give the player
+    -- a little bit of leeway with the collision
+    if self.x > anothertile.x + TILE_WIDTH or anothertile.x > self.x + TILE_WIDTH then
+        return false
+    end
+
+    -- then check to see if the bottom edge of either is higher than the top
+    -- edge of the other
+    if self.y > anothertile.y + TILE_HEIGHT or self.y < anothertile.y - TILE_HEIGHT then
+        return false;
+    end
+
+    -- if the above aren't true, they're overlapping
+    return true
+    
+end
+
 function Tile:render(x, y, opacity)
     -- draw tile itself
     if opacity then
@@ -41,7 +67,6 @@ function Tile:render(x, y, opacity)
       love.graphics.draw(gTextures['main'], gFrames['tiles'][self.color][self.variety],
         self.x + x, self.y + y)]]
     else
-      print('x is ' .. x .. ', y is ' .. y)
       love.graphics.setColor(255, 255, 255, 255)
       love.graphics.draw(gTextures['main'], gFrames['tiles'][self.color][self.variety],
         x, y)

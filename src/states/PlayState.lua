@@ -9,6 +9,7 @@ PlayState = Class{__includes = BaseState}
 
 function PlayState:init()
   self.timer = 0
+  self.numberfallen = 0
   self.tilespawntimer = 0
   self.fallentiles = {}
   self.fallingtiles =  {}
@@ -24,7 +25,6 @@ end
 function PlayState:enter(params)
   -- spawn a board and place it toward the right
   self.board = params.board or Board(self.level, VIRTUAL_WIDTH - 272, 16)
-  print('in enter code')
 
 end
 
@@ -35,18 +35,29 @@ function PlayState:update(dt)
   self.tilespawntimer = self.tilespawntimer + dt
   -- self.fallingtiles = self.havetilefall(self.fallingtiles)
    math.randomseed(os.time())
-  if self.tilespawntimer > math.random(2, 5) then
+  if self.tilespawntimer >= 3 then
+      self.numberfallen = self.numberfallen + 1
       local x = math.random(1,8)
       table.insert(self.fallingtiles, Tile(400, 100, math.random(18), math.random(1), 0))
-      self.fallingtiles[1]:render(100, 0, false)
+      self.fallingtiles[self.numberfallen]:render(100, 0, false)
+      print('reset timer')
       self.tilespawntimer = 0
   end
-
+  local tilecollision = false
   for k, tilefalling in pairs(self.fallingtiles) do
-    if tilefalling.gridY < VIRTUAL_HEIGHT - 46 then
+    for y = 1, 8 do
+      for x = 1, 8 do
+        if tilefalling:collides(self.board.tiles[y][x]) then
+          print('collision')
+          tilecollision = true
+        end
+      end
+    end
+    if tilefalling.gridY < VIRTUAL_HEIGHT - 46 and tilecollision == false then
       tilefalling.gridY = tilefalling.gridY + 1
     end
   end
+  -- print('tilespawntimer is ' .. self.tilespawntimer)
 
 end
 
@@ -59,9 +70,8 @@ function PlayState:render()
 
 
   --love.graphics.rectangle("fill", VIRTUAL_WIDTH - 200, 50, 60, 120 )
-  if self.fallingtiles[1] then
-    print_r(self.fallingtiles[1])
-    self.fallingtiles[1]:render(self.fallingtiles[1].gridX, self.fallingtiles[1].gridY, false)
+  for k, tilefalling in pairs(self.fallingtiles) do
+    tilefalling:render(tilefalling.gridX, tilefalling.gridY, false)
   end
 
 end
